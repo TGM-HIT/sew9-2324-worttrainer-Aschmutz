@@ -15,8 +15,9 @@ public class Wordpair {
 	}
 	public void setImageUrl(String url) {
 		if(url == null) throw new RuntimeException("image url must not be null");
-			try {
-				new URL(url);
+		try {
+			if(url.length()==0) throw new RuntimeException("image url must not be empty");
+			new URL(url);
 			} catch (MalformedURLException e) {
 				throw new RuntimeException("image url must not be a valid URL");
 			}
@@ -24,6 +25,7 @@ public class Wordpair {
 
 	public void setWord(String word) {
 		if(word==null) throw new RuntimeException("word must not be null");
+		if(word.length()==0) throw new RuntimeException("image url must not be empty");
 		this.word = word;
 	}
 
