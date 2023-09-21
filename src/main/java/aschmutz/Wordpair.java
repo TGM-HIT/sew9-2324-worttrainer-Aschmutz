@@ -9,7 +9,10 @@ public class Wordpair {
 	private String imageUrl;
 
 	private String word;
-
+	public Wordpair(String word, String url){
+		setWord(word);
+		setWord(url);
+	}
 	public void setImageUrl(String url) {
 		if(url == null) throw new RuntimeException("image url must not be null");
 			try {
