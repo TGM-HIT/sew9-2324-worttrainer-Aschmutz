@@ -11,7 +11,7 @@ public class Wordpair {
 	private String word;
 	public Wordpair(String word, String url){
 		setWord(word);
-		setWord(url);
+		setImageUrl(url);
 	}
 	public void setImageUrl(String url) {
 		if(url == null) throw new RuntimeException("image url must not be null");
