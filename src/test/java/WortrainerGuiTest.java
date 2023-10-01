@@ -9,7 +9,6 @@ public class WortrainerGuiTest {
     @Test
     public void testChangeWord(){
         WordtrainerGui wg = new WordtrainerGui(new WordtrainerBackend());
-        wg.showWordpromt();
         assertThrows(IllegalArgumentException.class, ()->wg.changeWordtainerBackend(null),"New \"NULL\" WordtrainerBackend was accepted");
         assertFalse(wg.showWordpromt(),"WordtrainerGui did not correctly identify an empty Wordtrainer");
         WordtrainerBackend wb = new WordtrainerBackend();
