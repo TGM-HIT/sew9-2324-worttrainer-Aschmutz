@@ -22,4 +22,10 @@ public class WordtrainerBackend {
 	public void setStatistics(int value, statType type) {
 
 	}
+	public Wordpair[] getWordpairs(){return null;}
+	public Wordpair removeWordpair(int id){return null;}
+
+	public static WordtrainerBackend loadWordtrainerBackend(String path){
+		return null;
+	}
 }
