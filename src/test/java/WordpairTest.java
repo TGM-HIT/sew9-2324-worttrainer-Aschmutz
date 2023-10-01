@@ -23,4 +23,15 @@ public class WordpairTest {
         assertThrows(RuntimeException.class,()->{wp.setWord("");},"EMPTY WORD IS INVALIDLY ACCEPTED");
         assertThrows(RuntimeException.class,()->{wp.setWord(null);},"NUll IS INVALIDLY ACCEPTED");
     }
+    @Test
+    public void testEquals(){
+        Wordpair wp1 = new Wordpair("word","https://www.google.com");
+        Wordpair wp2 = new Wordpair("word","https://www.google.com");
+        Wordpair wp3 = new Wordpair("word1","https://www.google.com");
+        Wordpair wp4 = new Wordpair("word","https://www.youtube.com");
+        assertEquals(wp1, wp2, "Equal worpairs are not Equal");
+        assertNotEquals(wp2, wp3, "unequal words are not detected");
+        assertNotEquals(wp2, wp4, "unequal URLs are not detected");
+        assertThrows(IllegalArgumentException.class,()->wp1.equals("word:https://www.google.com"),"Tries to Compare to Objects of different types");
+    }
 }
