@@ -43,4 +43,7 @@ public class Wordpair {
 		if(this.imageUrl != wp.imageUrl) return false;
 		return true;
 	}
+	public String toString(){
+		return word;
+	}
 }
