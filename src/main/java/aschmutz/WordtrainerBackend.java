@@ -8,7 +8,7 @@ public class WordtrainerBackend {
 
 	private int wrong = 0;
 
-	public Wordpair getWordpair() {
+	public Wordpair getWordpair(int id) {
 		return null;
 	}
 
