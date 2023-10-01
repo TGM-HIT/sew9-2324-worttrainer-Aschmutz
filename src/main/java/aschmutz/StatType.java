@@ -1,5 +1,5 @@
 package aschmutz;
 
-public enum statType {
+public enum StatType {
 	correct,wrong,tries;
 }

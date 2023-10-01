@@ -16,10 +16,10 @@ public class WordtrainerBackend {
 
 	}
 
-	public int getStatistics(statType type) {
+	public int getStatistics(StatType type) {
 		return 0;
 	}
-	public void setStatistics(int value, statType type) {
+	public void setStatistics(int value, StatType type) {
 
 	}
 	public Wordpair[] getWordpairs(){return null;}
