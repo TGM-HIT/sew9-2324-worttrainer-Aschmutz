@@ -25,7 +25,4 @@ public class WordtrainerBackend {
 	public Wordpair[] getWordpairs(){return null;}
 	public Wordpair removeWordpair(int id){return null;}
 
-	public static WordtrainerBackend loadWordtrainerBackend(String path){
-		return null;
-	}
 }
