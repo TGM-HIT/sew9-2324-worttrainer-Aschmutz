@@ -12,7 +12,7 @@ public class WortrainerGuiTest {
         assertThrows(IllegalArgumentException.class, ()->wg.changeWordtainerBackend(null),"New \"NULL\" WordtrainerBackend was accepted");
         assertFalse(wg.showWordpromt(),"WordtrainerGui did not correctly identify an empty Wordtrainer");
         WordtrainerBackend wb = new WordtrainerBackend();
-        wb.addWordpair(new Wordpair("google","https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"));
+        wb.addWordpair(new Wordpair("TGM","https://upload.wikimedia.org/wikipedia/commons/b/ba/TGM_Logo.png"));
         wg.changeWordtainerBackend(wb);
         assertTrue(wg.showWordpromt(),"Wordtrainer did not correctly identify a filled Wordtrainer");
 
