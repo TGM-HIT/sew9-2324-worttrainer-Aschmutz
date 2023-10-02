@@ -18,30 +18,32 @@ public class WordtrainerGui {
 	 */
 	public boolean showWordpromt() {
 		while(true) {
-			if (trainerToUse.getWordpairs().length == 0) {
-				JOptionPane.showMessageDialog(null, "There are no Wordpairs in this Wordtrainer", "Invalid Wordtrainer", JOptionPane.INFORMATION_MESSAGE);
-				return false;
-			}
-			currentWordpair = trainerToUse.getWordpair((int) (Math.random() * trainerToUse.getWordpairs().length));
-			URL imageUrl = null;
-			try {
-				imageUrl = new URL(currentWordpair.getImageUrl());
-			} catch (MalformedURLException ignored) {
-			}
-			Icon webImage = new ImageIcon(imageUrl);
-			String response = "";
-			boolean first = true;
-			while (!currentWordpair.validate(response)) {
-				response = (String) JOptionPane.showInputDialog(null, first ? "Guess the Word" : "Wrong\nGuess again", "Worttrainer", JOptionPane.INFORMATION_MESSAGE, webImage, null, null);
-				response = response == null ? "":response;
-				if (response.equalsIgnoreCase("quit")) return true;
-				first = false;
+			synchronized (this){
+				if (trainerToUse.getWordpairs().length == 0) {
+					JOptionPane.showMessageDialog(null, "There are no Wordpairs in this Wordtrainer", "Invalid Wordtrainer", JOptionPane.INFORMATION_MESSAGE);
+					return false;
+				}
+				currentWordpair = trainerToUse.getWordpair((int) (Math.random() * trainerToUse.getWordpairs().length));
+				URL imageUrl = null;
+				try {
+					imageUrl = new URL(currentWordpair.getImageUrl());
+				} catch (MalformedURLException ignored) {
+				}
+				Icon webImage = new ImageIcon(imageUrl);
+				String response = "";
+				boolean first = true;
+				while (!currentWordpair.validate(response)) {
+					response = (String) JOptionPane.showInputDialog(null, first ? "Guess the Word" : "Wrong\nGuess again", "Worttrainer", JOptionPane.INFORMATION_MESSAGE, webImage, null, null);
+					response = response == null ? "" : response;
+					if (response.equalsIgnoreCase("quit")) return true;
+					first = false;
+				}
 			}
 		}
 	}
-
-	public void changeWordtainerBackend(WordtrainerBackend trainerToUse){
+	
+	public synchronized void changeWordtainerBackend(WordtrainerBackend trainerToUse){
 		if (trainerToUse==null) throw new IllegalArgumentException("New Wordtrainer cannot be null");
-		this.trainerToUse = trainerToUse;
+		new Thread(()->this.trainerToUse = trainerToUse).start();
 	}
 }
