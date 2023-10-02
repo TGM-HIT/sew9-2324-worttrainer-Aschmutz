@@ -13,6 +13,7 @@ public class WortrainerGuiTest {
         assertFalse(wg.showWordpromt(),"WordtrainerGui did not correctly identify an empty Wordtrainer");
         WordtrainerBackend wb = new WordtrainerBackend();
         wb.addWordpair(new Wordpair("TGM","https://upload.wikimedia.org/wikipedia/commons/b/ba/TGM_Logo.png"));
+        wb.addWordpair(new Wordpair("untis","https://neilo.webuntis.com/assets/images/logo.png"));
         wg.changeWordtainerBackend(wb,true);
         assertTrue(wg.showWordpromt(),"Wordtrainer did not correctly identify a filled Wordtrainer");
 
