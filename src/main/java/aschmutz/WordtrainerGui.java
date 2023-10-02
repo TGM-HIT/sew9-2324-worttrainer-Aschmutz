@@ -3,7 +3,6 @@ package aschmutz;
 import javax.swing.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-//TODO add statistic Updates and Display;
 /**
  * The WordtrainerGui is used as a Frontend that uses a WordtrainerBackend to show the GUI for Wordtraining
  */
