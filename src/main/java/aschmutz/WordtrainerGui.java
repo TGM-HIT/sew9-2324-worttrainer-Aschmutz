@@ -16,7 +16,7 @@ public class WordtrainerGui {
 	 * @param trainerToUse The WordtrainerBackend that is used in the Frontend.
 	 */
 	public WordtrainerGui(WordtrainerBackend trainerToUse){
-	changeWordtainerBackend(trainerToUse);
+	changeWordtainerBackend(trainerToUse,true);
 }
 
 	/**
@@ -42,11 +42,13 @@ public class WordtrainerGui {
 				String response = "";
 				boolean first = true;
 				while (!currentWordpair.validate(response)) {
-					response = (String) JOptionPane.showInputDialog(null, first ? "Guess the Word" : "Wrong\nGuess again", "Worttrainer", JOptionPane.INFORMATION_MESSAGE, webImage, null, null);
+					if(!first) trainerToUse.setStatistics(trainerToUse.getStatistics(StatType.wrong)+1,StatType.wrong);
+					response = (String) JOptionPane.showInputDialog(null, (first ? "Guess the Word" : "Wrong\nGuess again"), "Statistics:\tTries: "+trainerToUse.getStatistics(StatType.tries)+"\tCorrect: "+trainerToUse.getStatistics(StatType.correct)+"\tWrong: "+trainerToUse.getStatistics(StatType.wrong), JOptionPane.INFORMATION_MESSAGE, webImage, null, null);
 					response = response == null ? "" : response;
 					if (response.equalsIgnoreCase("quit")) return true;
 					first = false;
 				}
+				trainerToUse.setStatistics(trainerToUse.getStatistics(StatType.correct)+1,StatType.correct);
 			}
 		}
 	}
@@ -56,10 +58,17 @@ public class WordtrainerGui {
 	 * Backend changing is Threadsave, so it can be changed during active promting.
 	 * Backend will change after correctly guesing the current word. The calling method will not haave to wait for that
 	 * @param trainerToUse The new WordtrainerBackend that is to be used by the Gui, as aword Library
+	 * @param sychonized If true, the execution will wait until the Worttrainerbackend is changed. Do this if you plan to instantly call it afterward, with new Backend, or for initialising
 	 * @throws IllegalArgumentException Throws an IllegalArgumentException if the new Wordtrainer is Null
 	 */
-	public synchronized void changeWordtainerBackend(WordtrainerBackend trainerToUse){
+	public void changeWordtainerBackend(WordtrainerBackend trainerToUse,boolean sychonized){
 		if (trainerToUse==null) throw new IllegalArgumentException("New Wordtrainer cannot be null");
-		new Thread(()->this.trainerToUse = trainerToUse).start();
+		Thread t = new Thread( ()->{synchronized(this){this.trainerToUse = trainerToUse;}});
+		t.start();
+		if (sychonized) {
+			try {
+				t.join();
+			} catch (InterruptedException ignore) {}
+		}
 	}
 }
