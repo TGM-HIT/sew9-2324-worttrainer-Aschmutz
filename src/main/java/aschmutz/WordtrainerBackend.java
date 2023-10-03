@@ -14,6 +14,7 @@ public class WordtrainerBackend {
 
 	private int wrong = 0;
 
+	private WordtrainerSaveManager saveManager;
 	/**
 	 * The Constructor for the Wordtrainer Backend
 	 */
@@ -21,14 +22,56 @@ public class WordtrainerBackend {
 		wordpairs = new LinkedList<Wordpair>();
 	}
 
+	/**
+	 * TODO
+	 * @param saveManager
+	 * @param path
+	 * @throws IllegalArgumentException TODO
+	 */
 	public WordtrainerBackend(WordtrainerSaveManager saveManager, String path ){
 
 	}
+	/**
+	 * TODO
+	 * @param saveManager
+	 * @throws IllegalArgumentException TODO
+	 */
 	public WordtrainerBackend (WordtrainerSaveManager saveManager){
 
 	}
+
+	/**
+	 * TODO
+	 * @param path
+	 * TODO @throws
+	 */
 	public void load(String path){}
+	/**
+	 * TODO
+	 * @param path
+	 * TODO @throws
+	 */
 	public void save(String path){}
+
+	/**
+	 * TODO
+	 * @param saveManager
+	 * TODO @throws
+	 */
+	public void setSaveManager(WordtrainerSaveManager saveManager){
+
+	}
+
+	/**
+	 * TODO
+	 * @param o
+	 * @return
+	 * TODO @throws
+	 */
+	public boolean equals(Object o){
+		//TODO UPDATE UML
+		return false;
+	}
 
 	/**
 	 * returns a Wordpair with a given ID
