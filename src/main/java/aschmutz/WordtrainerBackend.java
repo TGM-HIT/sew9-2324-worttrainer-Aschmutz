@@ -95,10 +95,9 @@ public class WordtrainerBackend {
 	 * @return If the Object is Equal
 	 */
 	public boolean equals(Object o){
-		if(!(o instanceof WordtrainerBackend)){
+		if(!(o instanceof WordtrainerBackend wtb)){
 			return false;
 		}
-		WordtrainerBackend wtb = (WordtrainerBackend) o;
 		// Comparing the statistics stored inside
 		if (wtb.getStatistics(StatType.correct) != this.getStatistics(StatType.correct)) return false;
 		if (wtb.getStatistics(StatType.wrong) != this.getStatistics(StatType.wrong)) return false;
