@@ -63,14 +63,30 @@ public class WordtrainerBackend {
 	}
 
 	/**
-	 * TODO
-	 * @param o
-	 * @return
-	 * TODO @throws
+	 * Compares two WordtrainerBackend with each other. Returns true if the statistics, the Save manager
+	 * and all stored Wordtrainers are equal and have the same order
+	 * @param o The WordtrainerBackend that is compared
+	 * @return If the Object is Equal
 	 */
 	public boolean equals(Object o){
-		//TODO UPDATE UML
-		return false;
+		if(!(o instanceof WordtrainerBackend)){
+			return false;
+		}
+		WordtrainerBackend wtb = (WordtrainerBackend) o;
+		// Comparing the statistics stored inside
+		if (wtb.getStatistics(StatType.correct) != this.getStatistics(StatType.correct)) return false;
+		if (wtb.getStatistics(StatType.wrong) != this.getStatistics(StatType.wrong)) return false;
+		//Compares saveManager
+		if(!wtb.saveManager.equals(this.saveManager)) return false;
+		//Compares the wordpairs stored inside
+		Wordpair[] wpaWTB = wtb.getWordpairs();
+		Wordpair[] wpaTHIS = this.getWordpairs();
+		if(wpaWTB.length != wpaTHIS.length) return false;
+		for(int i = 0; i < wpaTHIS.length;i++){
+			if(!wpaTHIS[i].equals(wpaWTB[i]))return false;
+		}
+
+		return true;
 	}
 
 	/**
