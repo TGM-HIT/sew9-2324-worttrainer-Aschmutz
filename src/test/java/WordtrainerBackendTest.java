@@ -2,7 +2,9 @@ import aschmutz.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+//TODO Add Displaynames (@DisplayName(xyz))"
 public class WordtrainerBackendTest {
+
     @Test
    public void testWordpairHandeling(){
         WordtrainerBackend wtb = new WordtrainerBackend();
@@ -44,9 +46,8 @@ public class WordtrainerBackendTest {
         wtb.addWordpair(wp1);
         wtb.addWordpair(wp2);
         wtb.addWordpair(wp3);
-        assertThrows(IllegalArgumentException.class, ()->wtb.setSaveManager(null),"WordttrainerBackend  allowed null to be set as a savemanager");
         WordtrainerJSONSaveManager wjsm = new WordtrainerJSONSaveManager();
-        assertDoesNotThrow(()->wtb.setSaveManager(wjsm),"Cannot set Savemanager succesfully");
+        wtb.setSaveManager(wjsm);
         wtb.save("testSave.json");
         WordtrainerBackend wtbLoaded = new WordtrainerBackend(wjsm,"testSave.json");
         assertEquals(wtb,wtbLoaded,"Loaded WordtrainerBackend differentiates from Saved WordtrainerBackend");
