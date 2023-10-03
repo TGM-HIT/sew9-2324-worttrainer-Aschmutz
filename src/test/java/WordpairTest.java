@@ -36,6 +36,6 @@ public class WordpairTest {
         assertEquals(wp1, wp2, "Equal worpairs are not Equal");
         assertNotEquals(wp2, wp3, "unequal words are not detected");
         assertNotEquals(wp2, wp4, "unequal URLs are not detected");
-        assertThrows(IllegalArgumentException.class,()->wp1.equals("word:https://www.google.com"),"Tries to Compare to Objects of different types");
+        assertFalse(wp1.equals("word:https://www.google.com"),"Tries to Compare to Objects of different types, and gets True");
     }
 }

@@ -1,6 +1,11 @@
-import aschmutz.*;
+import aschmutz.StatType;
+import aschmutz.Wordpair;
+import aschmutz.WordtrainerBackend;
+import aschmutz.WordtrainerJSONSaveManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class WordtrainerBackendTest {
@@ -53,11 +58,17 @@ public class WordtrainerBackendTest {
         wtb.setStatistics(90,StatType.wrong);
         WordtrainerJSONSaveManager wjsm = new WordtrainerJSONSaveManager();
         wtb.setSaveManager(wjsm);
-        wtb.save("testSave.json");
-        WordtrainerBackend wtbLoaded = new WordtrainerBackend(wjsm,"testSave.json");
+        assertDoesNotThrow(()->wtb.save("testSave.json"),"The filepath is not accepted");
+        WordtrainerBackend wtbLoaded = null;
+        try{
+            wtbLoaded = new WordtrainerBackend(wjsm,"testSave.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("Could not load saved file");
+        }
         assertEquals(wtb,wtbLoaded,"Loaded WordtrainerBackend differentiates from Saved WordtrainerBackend");
         WordtrainerBackend wtbLoadedWithMethod = new WordtrainerBackend(wjsm);
-        wtbLoadedWithMethod.load("testSave.json");
+        assertDoesNotThrow(()->wtbLoadedWithMethod.load("testSave.json"),"File loading from path does not work eventhough saving does");
         assertEquals(wtb,wtbLoadedWithMethod,"Loading With \"load\" method does not correctly create a Equal Object");
     }
 }

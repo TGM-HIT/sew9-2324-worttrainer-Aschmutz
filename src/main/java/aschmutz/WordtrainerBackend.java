@@ -1,5 +1,6 @@
 package aschmutz;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class WordtrainerBackend {
 	 * @param path The path from where the object will be loaded. It must not be null
 	 * @throws IllegalArgumentException Throws an {@link IllegalArgumentException} if the path is null
 	 */
-	public WordtrainerBackend(WordtrainerSaveManager saveManager, String path ){
+	public WordtrainerBackend(WordtrainerSaveManager saveManager, String path ) throws IOException {
 		wordpairs = new LinkedList<Wordpair>();
 		setSaveManager(saveManager);
 		if(path == null) throw new IllegalArgumentException("Cannot load from null, the path cannot be null.");
@@ -51,11 +52,12 @@ public class WordtrainerBackend {
 	 * @param path The path from where the object will be loaded.
 	 * @throws IllegalArgumentException If the passed Argument for the path is NULL;
 	 * @throws IllegalStateException If there is no {@link WordtrainerSaveManager} set, as this specifies the behaviour of the save functionality
+	 * @throws IOException If the there are Problems with reading the File or if the file does not exist
 	 */
-	public void load(String path){
+	public void load(String path) throws IOException {
 		if(saveManager == null) throw new IllegalStateException("There must be WordtrainerSaveManager set, in order to use the included save and load functionalities.");
 		if(path == null) throw new IllegalArgumentException("Cannot load from null");
-		WordtrainerBackend temporaryWordtrainerBackend = saveManager.load("path");
+		WordtrainerBackend temporaryWordtrainerBackend = saveManager.load(path);
 		this.correct = temporaryWordtrainerBackend.getStatistics(StatType.correct);
 		this.wrong = temporaryWordtrainerBackend.getStatistics(StatType.wrong);
 		this.wordpairs.clear();
@@ -68,8 +70,9 @@ public class WordtrainerBackend {
 	 * @param path The path where the Object will be saved.
 	 * @throws IllegalArgumentException If the passed Argument for the path is NULL;
 	 * @throws IllegalStateException If there is no {@link WordtrainerSaveManager} set, as this specifies the behaviour of the save functionality
+	 * @throws IOException If there are Problems when writing the File to Disk
 	 */
-	public void save(String path){
+	public void save(String path) throws IOException {
 		if(saveManager == null) throw new IllegalStateException("There must be WordtrainerSaveManager set, in order to use the included save and load functionalities.");
 		if(path == null) throw new IllegalArgumentException("Cannot load from null");
 		saveManager.save(path,this);
