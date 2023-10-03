@@ -23,43 +23,65 @@ public class WordtrainerBackend {
 	}
 
 	/**
-	 * TODO
-	 * @param saveManager
-	 * @param path
-	 * @throws IllegalArgumentException TODO
+	 * Creates a new instance of the WordtrainerBackend, and uses the given savemanager to initialise
+	 * with the values stored on the file of the given path
+	 * @param saveManager The Savemanager that is used for the initial load.
+	 * @param path The path from where the object will be loaded. It must not be null
+	 * @throws IllegalArgumentException Throws an {@link IllegalArgumentException} if the path is null
 	 */
 	public WordtrainerBackend(WordtrainerSaveManager saveManager, String path ){
-
+		wordpairs = new LinkedList<Wordpair>();
+		setSaveManager(saveManager);
+		if(path == null) throw new IllegalArgumentException("Cannot load from null, the path cannot be null.");
+		load(path);
 	}
+
 	/**
-	 * TODO
-	 * @param saveManager
-	 * @throws IllegalArgumentException TODO
+	 * Creates a new instance of a WordtrainerBackend with a saveManager already set.
+	 * @param saveManager The SaveManager that is to be set.
 	 */
 	public WordtrainerBackend (WordtrainerSaveManager saveManager){
-
+		wordpairs = new LinkedList<Wordpair>();
+		setSaveManager(saveManager);
 	}
 
 	/**
-	 * TODO
-	 * @param path
-	 * TODO @throws
+	 * Loads the WordtrainerBackend from a given path.
+	 * Uses the set {@link WordtrainerSaveManager} to load the WordtrainerBackend Object.
+	 * @param path The path from where the object will be loaded.
+	 * @throws IllegalArgumentException If the passed Argument for the path is NULL;
+	 * @throws IllegalStateException If there is no {@link WordtrainerSaveManager} set, as this specifies the behaviour of the save functionality
 	 */
-	public void load(String path){}
-	/**
-	 * TODO
-	 * @param path
-	 * TODO @throws
-	 */
-	public void save(String path){}
+	public void load(String path){
+		if(saveManager == null) throw new IllegalStateException("There must be WordtrainerSaveManager set, in order to use the included save and load functionalities.");
+		if(path == null) throw new IllegalArgumentException("Cannot load from null");
+		WordtrainerBackend temporaryWordtrainerBackend = saveManager.load("path");
+		this.correct = temporaryWordtrainerBackend.getStatistics(StatType.correct);
+		this.wrong = temporaryWordtrainerBackend.getStatistics(StatType.wrong);
+		this.wordpairs.clear();
+		this.wordpairs.addAll(temporaryWordtrainerBackend.wordpairs);
+	}
 
 	/**
-	 * TODO
-	 * @param saveManager
-	 * TODO @throws
+	 * Saves the WordtrainerBackend to a given path.
+	 * Uses the set {@link WordtrainerSaveManager} to save the WordtrainerBackend Object.
+	 * @param path The path where the Object will be saved.
+	 * @throws IllegalArgumentException If the passed Argument for the path is NULL;
+	 * @throws IllegalStateException If there is no {@link WordtrainerSaveManager} set, as this specifies the behaviour of the save functionality
+	 */
+	public void save(String path){
+		if(saveManager == null) throw new IllegalStateException("There must be WordtrainerSaveManager set, in order to use the included save and load functionalities.");
+		if(path == null) throw new IllegalArgumentException("Cannot load from null");
+		saveManager.save(path,this);
+	}
+
+	/**
+	 * Sets the {@link WordtrainerSaveManager} that is used in the included Save and load Methodes of the WordtrainerBackend
+	 * @param saveManager The saveManager that is to be set.
 	 */
 	public void setSaveManager(WordtrainerSaveManager saveManager){
-
+		// No Null check is intetnionall to allow for removal of the saveManager
+		this.saveManager = saveManager;
 	}
 
 	/**
