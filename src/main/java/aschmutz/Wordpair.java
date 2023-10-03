@@ -69,15 +69,14 @@ public class Wordpair {
 
 	/**
 	 * Checks if a Wordpair is Equal to the current one. Equality depends on the String used in the word and the image URL not bein the same.
-	 * @param o the object that is to be compaired against. If it is not an instance of Wordpair, an exception will be thrown.
+	 * @param o the object that is to be compaired against.
 	 * @return If the given wordpair is euqal to this, according to the conditions mentioned above
-	 * @throws IllegalArgumentException Throws an IllegalArgumentException if the Object is not an instance of Wordpair
 	 */
 	@Override
 	public boolean equals(Object o){
-		if (!(o instanceof Wordpair)) throw new IllegalArgumentException("Object must be comparable to Wordpair");
+		if (!(o instanceof Wordpair)) return false;
 		Wordpair wp = (Wordpair) o;
-		if(!this.word.equals(word)) return false;
+		if(!this.word.equals(wp.word)) return false;
 		if(!this.imageUrl.equals(wp.imageUrl)) return false;
 		return true;
 	}
