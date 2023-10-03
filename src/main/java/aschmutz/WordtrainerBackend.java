@@ -63,8 +63,9 @@ public class WordtrainerBackend {
 	}
 
 	/**
-	 * Compares two WordtrainerBackend with each other. Returns true if the statistics, the Save manager
-	 * and all stored Wordtrainers are equal and have the same order
+	 * Compares two WordtrainerBackend with each other. Returns true if the statistics
+	 * and all stored Wordtrainers are equal and have the same order.
+	 * The Savemanager does not account to Equality.
 	 * @param o The WordtrainerBackend that is compared
 	 * @return If the Object is Equal
 	 */
@@ -76,8 +77,6 @@ public class WordtrainerBackend {
 		// Comparing the statistics stored inside
 		if (wtb.getStatistics(StatType.correct) != this.getStatistics(StatType.correct)) return false;
 		if (wtb.getStatistics(StatType.wrong) != this.getStatistics(StatType.wrong)) return false;
-		//Compares saveManager
-		if(!wtb.saveManager.equals(this.saveManager)) return false;
 		//Compares the wordpairs stored inside
 		Wordpair[] wpaWTB = wtb.getWordpairs();
 		Wordpair[] wpaTHIS = this.getWordpairs();
