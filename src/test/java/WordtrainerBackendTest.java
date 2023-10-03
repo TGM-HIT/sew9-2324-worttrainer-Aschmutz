@@ -49,6 +49,8 @@ public class WordtrainerBackendTest {
         wtb.addWordpair(wp1);
         wtb.addWordpair(wp2);
         wtb.addWordpair(wp3);
+        wtb.setStatistics(10,StatType.correct);
+        wtb.setStatistics(90,StatType.wrong);
         WordtrainerJSONSaveManager wjsm = new WordtrainerJSONSaveManager();
         wtb.setSaveManager(wjsm);
         wtb.save("testSave.json");
