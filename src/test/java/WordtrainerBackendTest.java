@@ -1,10 +1,10 @@
 import aschmutz.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-//TODO Add Displaynames (@DisplayName(xyz))"
 public class WordtrainerBackendTest {
-
+    @DisplayName("Testing The getting and adding of wordpairs")
     @Test
    public void testWordpairHandeling(){
         WordtrainerBackend wtb = new WordtrainerBackend();
@@ -25,6 +25,8 @@ public class WordtrainerBackendTest {
         assertThrows(IndexOutOfBoundsException.class,() -> wtb.removeWordpair(3), "Can remove non-existend element");
         assertThrows(IllegalArgumentException.class,()->wtb.addWordpair(null),"Adding a null wordpair is possible");
     }
+
+    @DisplayName("Testing the Statistics getter and setter Functions")
     @Test
      public void testStatistics(){
          WordtrainerBackend wtb = new WordtrainerBackend();
@@ -37,6 +39,7 @@ public class WordtrainerBackendTest {
          assertEquals(15,wtb.getStatistics(StatType.wrong),"Amount for Statistic:Wrong is wrong");
          assertEquals(20,wtb.getStatistics(StatType.tries),"Amount for Statistic:Tries is wrong");
     }
+    @DisplayName("Testing the saving and loading of WordtrainerBackends, using the WordtrainerJSONSaveManager")
     @Test
     public void testSaving(){
         WordtrainerBackend wtb = new WordtrainerBackend();

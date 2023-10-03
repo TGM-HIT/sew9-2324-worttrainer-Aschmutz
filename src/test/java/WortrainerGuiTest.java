@@ -1,11 +1,12 @@
 import aschmutz.Wordpair;
 import aschmutz.WordtrainerBackend;
 import aschmutz.WordtrainerGui;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 public class WortrainerGuiTest {
+    @DisplayName("Tests the GUI/Controller system -> WordtrainerGui")
     @Test
     public void testChangeWord(){
         WordtrainerGui wg = new WordtrainerGui(new WordtrainerBackend());
