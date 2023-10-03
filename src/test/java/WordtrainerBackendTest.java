@@ -1,6 +1,4 @@
-import aschmutz.StatType;
-import aschmutz.Wordpair;
-import aschmutz.WordtrainerBackend;
+import aschmutz.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,5 +34,24 @@ public class WordtrainerBackendTest {
          assertEquals(5,wtb.getStatistics(StatType.correct),"Amount for Statistic:Correct is wrong");
          assertEquals(15,wtb.getStatistics(StatType.wrong),"Amount for Statistic:Wrong is wrong");
          assertEquals(20,wtb.getStatistics(StatType.tries),"Amount for Statistic:Tries is wrong");
+    }
+    @Test
+    public void testSaving(){
+        WordtrainerBackend wtb = new WordtrainerBackend();
+        Wordpair wp1 = new Wordpair("word","https://www.tgm.ac.at");
+        Wordpair wp2 = new Wordpair("word2","https://www.google.com");
+        Wordpair wp3 = new Wordpair("word3","https://elearning.tgm.ac.at");
+        wtb.addWordpair(wp1);
+        wtb.addWordpair(wp2);
+        wtb.addWordpair(wp3);
+        assertThrows(IllegalArgumentException.class, ()->wtb.setSaveManager(null),"WordttrainerBackend  allowed null to be set as a savemanager");
+        WordtrainerJSONSaveManager wjsm = new WordtrainerJSONSaveManager();
+        assertDoesNotThrow(()->wtb.setSaveManager(wjsm),"Cannot set Savemanager succesfully");
+        wtb.save("testSave.json");
+        WordtrainerBackend wtbLoaded = new WordtrainerBackend(wjsm,"testSave.json");
+        assertEquals(wtb,wtbLoaded,"Loaded WordtrainerBackend differentiates from Saved WordtrainerBackend");
+        WordtrainerBackend wtbLoadedWithMethod = new WordtrainerBackend(wjsm);
+        wtbLoadedWithMethod.load("testSave.json");
+        assertEquals(wtb,wtbLoadedWithMethod,"Loading With \"load\" method does not correctly create a Equal Object");
     }
 }
