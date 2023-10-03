@@ -21,6 +21,15 @@ public class WordtrainerBackend {
 		wordpairs = new LinkedList<Wordpair>();
 	}
 
+	public WordtrainerBackend(WordtrainerSaveManager saveManager, String path ){
+
+	}
+	public WordtrainerBackend (WordtrainerSaveManager saveManager){
+
+	}
+	public void load(String path){}
+	public void save(String path){}
+
 	/**
 	 * returns a Wordpair with a given ID
 	 * @param id The ID of the Wordpair ranges from 0 to length-1
