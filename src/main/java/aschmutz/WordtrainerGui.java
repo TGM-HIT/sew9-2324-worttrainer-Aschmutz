@@ -1,12 +1,19 @@
 package aschmutz;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageFilter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 /**
  * The WordtrainerGui is used as a Frontend that uses a WordtrainerBackend to show the GUI for Wordtraining
  */
 public class WordtrainerGui {
+	private static int MAX_IMAGE_HEIGHT_AND_WIDTH = 512;
 	private WordtrainerBackend trainerToUse;
 	private Wordpair currentWordpair;
 
@@ -37,7 +44,24 @@ public class WordtrainerGui {
 					imageUrl = new URL(currentWordpair.getImageUrl());
 				} catch (MalformedURLException ignored) {
 				}
-				Icon webImage = new ImageIcon(imageUrl);
+
+				//Loading the Image an scaling it
+				BufferedImage unscaledImage = null;
+				try {
+					unscaledImage = ImageIO.read(imageUrl);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null,"Invalid Image URL in wordpair for Word: "+currentWordpair.toString()+"\nWordpair will be skiped","ERROR Invalid Image URL",JOptionPane.ERROR_MESSAGE);
+					continue;
+				}
+				int referenceSize = Math.max(unscaledImage.getHeight(), unscaledImage.getWidth());
+				double referenceFactor = (double)MAX_IMAGE_HEIGHT_AND_WIDTH / referenceSize;
+
+				int scaledHeight = (int) (unscaledImage.getHeight()*referenceFactor);
+				int scaledWidth = (int) (unscaledImage.getWidth()*referenceFactor);
+				BufferedImage scaledImage = new BufferedImage(scaledWidth,scaledHeight,BufferedImage.TYPE_INT_ARGB);
+				new AffineTransformOp(AffineTransform.getScaleInstance(referenceFactor,referenceFactor),AffineTransformOp.TYPE_BILINEAR).filter(unscaledImage,scaledImage);
+				//Creating the Icon out of the oaded image
+				Icon webImage = new ImageIcon(scaledImage);
 				String response = "";
 				boolean first = true;
 				while (!currentWordpair.validate(response)) {
