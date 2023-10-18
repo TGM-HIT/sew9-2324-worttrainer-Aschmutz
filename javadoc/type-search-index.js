@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"aschmutz","l":"Main"},{"p":"aschmutz","l":"StatType"},{"p":"aschmutz","l":"Wordpair"},{"p":"aschmutz","l":"WordtrainerBackend"},{"p":"aschmutz","l":"WordtrainerGui"},{"p":"aschmutz","l":"WordtrainerJSONSaveManager"},{"p":"aschmutz","l":"WordtrainerSaveManager"}];updateSearchResults();
