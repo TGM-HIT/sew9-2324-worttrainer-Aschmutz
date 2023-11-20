@@ -2,6 +2,7 @@ package aschmutz;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -44,6 +45,21 @@ public class WordtrainerGui {
 					imageUrl = new URL(currentWordpair.getImageUrl());
 				} catch (MalformedURLException ignored) {
 				}
+				boolean invalid= true;
+				while(invalid) {
+					try {
+						imageUrl = new URL(currentWordpair.getImageUrl());
+					} catch (MalformedURLException ignored) {
+					}
+					//Checks if an Image is actualy an Image, by loading it into an ImageObject, and getting its Width
+					if (!checkIfImageExists(imageUrl)) { //TODO MBY Bug that it does not wait for image to be loaded
+						System.out.println(currentWordpair.getImageUrl());
+						//System.out.println(new ImageIcon(currentWordpair.getImageUrl()).getImage().getWidth(null));
+						String newURL = JOptionPane.showInputDialog("The Image URL \"" + currentWordpair.getImageUrl() + "\" for the word\"" + currentWordpair.toString() + "\" is outdated. Please enter a new URL for this Image. After that it will be shuffeld back into the System.\n If the Problem persists please close the Program and remove the Entery from the JSON File accouring to the Readme File");
+						try{currentWordpair.setImageUrl(newURL);}catch (IllegalArgumentException e){continue;}
+					}else
+						invalid = false;
+				}
 
 				//Loading the Image an scaling it
 				BufferedImage unscaledImage = null;
@@ -53,6 +69,7 @@ public class WordtrainerGui {
 					JOptionPane.showMessageDialog(null,"Invalid Image URL in wordpair for Word: "+currentWordpair.toString()+"\nWordpair will be skiped","ERROR Invalid Image URL",JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
+				System.out.println(imageUrl);
 				int referenceSize = Math.max(unscaledImage.getHeight(), unscaledImage.getWidth());
 				double referenceFactor = (double)MAX_IMAGE_HEIGHT_AND_WIDTH / referenceSize;
 
@@ -74,6 +91,25 @@ public class WordtrainerGui {
 				trainerToUse.setStatistics(trainerToUse.getStatistics(StatType.correct)+1,StatType.correct);
 			}
 		}
+	}
+
+	private boolean checkIfImageExists(URL path) {
+		ImageIcon ImIc = new ImageIcon(path);
+		Thread imageChecker = new Thread(()->{
+			while(ImIc.getImageLoadStatus()== MediaTracker.LOADING){
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException ignored) {
+				}
+			}
+		}
+		);
+		try {
+			imageChecker.join();
+		} catch (InterruptedException ignored) {}
+		//return !(ImIc.getImageLoadStatus() == MediaTracker.ABORTED || ImIc.getImageLoadStatus() == MediaTracker.ERRORED);
+		if(ImIc.getImageLoadStatus() != MediaTracker.COMPLETE) return false;
+		return ImIc.getImage().getWidth(null) >= -1;
 	}
 
 	/**
